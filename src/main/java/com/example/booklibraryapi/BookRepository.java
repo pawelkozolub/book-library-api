@@ -19,4 +19,11 @@ public class BookRepository {
         return jdbcTemplate.query("SELECT id, title, author FROM books",
                 BeanPropertyRowMapper.newInstance(Book.class));
     }
+
+    public Book getById(int id) {
+        return jdbcTemplate.queryForObject(
+                "SELECT id, title, author FROM books WHERE id = ?",
+                BeanPropertyRowMapper.newInstance(Book.class),
+                id);
+    }
 }
