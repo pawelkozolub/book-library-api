@@ -27,4 +27,16 @@ public class BookController {
     public Book getById(@PathVariable("id") int id) {
         return bookRepository.getById(id);
     }
+
+    @PutMapping("/{id}")
+    public String update(@PathVariable("id") int id, @RequestBody Book updatedBook) {
+        Book book = bookRepository.getById(id);
+        if (book != null) {
+            book.setTitle(updatedBook.getTitle());
+            book.setAuthor(updatedBook.getAuthor());
+            bookRepository.update(book);
+            return "Updated book: \n" + book;
+        }
+        return "Book is not found. Cannot update.";
+    }
 }

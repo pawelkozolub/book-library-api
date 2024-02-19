@@ -32,4 +32,9 @@ public class BookRepository {
                 .update("INSERT INTO books(title, author) VALUES (?, ?)", book.getTitle(), book.getAuthor())
         );
     }
+
+    public void update(Book book) {
+        jdbcTemplate.update("UPDATE books SET title=?, author=? WHERE id=?",
+                book.getTitle(), book.getAuthor(), book.getId());
+    }
 }
