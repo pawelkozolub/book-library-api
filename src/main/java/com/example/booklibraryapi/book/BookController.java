@@ -39,4 +39,16 @@ public class BookController {
         }
         return "Book is not found. Cannot update.";
     }
+
+    @PatchMapping("/{id}")
+    public String partialUpdate(@PathVariable("id") int id, @RequestBody Book updatedBook) {
+        Book book = bookRepository.getById(id);
+        if (book != null) {
+            if (updatedBook.getTitle() != null) book.setTitle(updatedBook.getTitle());
+            if (updatedBook.getAuthor() != null) book.setAuthor(updatedBook.getAuthor());
+            bookRepository.update(book);
+            return "Updated book: \n" + book;
+        }
+        return "Book is not found. Cannot update.";
+    }
 }
