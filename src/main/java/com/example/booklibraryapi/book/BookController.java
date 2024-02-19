@@ -20,7 +20,7 @@ public class BookController {
     @PostMapping
     public String add(@RequestBody List<Book> books) {
         bookRepository.save(books);
-        return "New books added";
+        return "New books added: \n" + books;
     }
 
     @GetMapping("/{id}")
