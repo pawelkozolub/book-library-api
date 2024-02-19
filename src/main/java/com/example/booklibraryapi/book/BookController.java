@@ -51,4 +51,14 @@ public class BookController {
         }
         return "Book is not found. Cannot update.";
     }
+
+    @DeleteMapping("/{id}")
+    public String delete(@PathVariable("id") int id) {
+        Book book = bookRepository.getById(id);
+        if (book != null) {
+            bookRepository.delete(id);
+            return "Book deleted: \n" + book;
+        }
+        return "Book is not found. Cannot delete.";
+    }
 }
