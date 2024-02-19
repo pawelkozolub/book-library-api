@@ -1,4 +1,4 @@
-package com.example.booklibraryapi;
+package com.example.booklibraryapi.book;
 
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;

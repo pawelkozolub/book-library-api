@@ -1,4 +1,4 @@
-package com.example.booklibraryapi;
+package com.example.booklibraryapi.book;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
