@@ -26,4 +26,10 @@ public class BookRepository {
                 BeanPropertyRowMapper.newInstance(Book.class),
                 id);
     }
+
+    public void save(List<Book> books) {
+        books.forEach(book -> jdbcTemplate
+                .update("INSERT INTO books(title, author) VALUES (?, ?)", book.getTitle(), book.getAuthor())
+        );
+    }
 }
