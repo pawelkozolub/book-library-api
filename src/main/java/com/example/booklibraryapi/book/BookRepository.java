@@ -5,6 +5,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public class BookRepository {
@@ -20,11 +21,16 @@ public class BookRepository {
                 BeanPropertyRowMapper.newInstance(Book.class));
     }
 
-    public Book getById(int id) {
-        return jdbcTemplate.queryForObject(
-                "SELECT id, title, author FROM books WHERE id = ?",
-                BeanPropertyRowMapper.newInstance(Book.class),
-                id);
+    public Optional<Book> getById(int id) {
+        try {
+            return Optional.ofNullable(jdbcTemplate.queryForObject(
+                    "SELECT id, title, author FROM books WHERE id = ?",
+                    BeanPropertyRowMapper.newInstance(Book.class),
+                    id));
+        } catch (RuntimeException e) {
+            e.printStackTrace();
+            return Optional.empty();
+        }
     }
 
     public void save(List<Book> books) {
