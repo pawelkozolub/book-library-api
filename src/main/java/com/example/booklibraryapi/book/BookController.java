@@ -3,6 +3,7 @@ package com.example.booklibraryapi.book;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/books")
@@ -27,39 +28,39 @@ public class BookController {
 
     @GetMapping("/{id}")
     public Book getById(@PathVariable("id") int id) {
-        return bookRepository.getById(id);
+        return bookRepository.getById(id).orElse(null);
     }
 
     @PutMapping("/{id}")
     public String update(@PathVariable("id") int id, @RequestBody Book updatedBook) {
-        Book book = bookRepository.getById(id);
-        if (book != null) {
-            book.setTitle(updatedBook.getTitle());
-            book.setAuthor(updatedBook.getAuthor());
-            bookRepository.update(book);
-            return "Updated book: \n" + book;
+        Optional<Book> book = bookRepository.getById(id);
+        if (book.isPresent()) {
+            book.get().setTitle(updatedBook.getTitle());
+            book.get().setAuthor(updatedBook.getAuthor());
+            bookRepository.update(book.get());
+            return "Updated book: \n" + book.get();
         }
         return "Book is not found. Cannot update.";
     }
 
     @PatchMapping("/{id}")
     public String partialUpdate(@PathVariable("id") int id, @RequestBody Book updatedBook) {
-        Book book = bookRepository.getById(id);
-        if (book != null) {
-            if (updatedBook.getTitle() != null) book.setTitle(updatedBook.getTitle());
-            if (updatedBook.getAuthor() != null) book.setAuthor(updatedBook.getAuthor());
-            bookRepository.update(book);
-            return "Updated book: \n" + book;
+        Optional<Book> book = bookRepository.getById(id);
+        if (book.isPresent()) {
+            if (updatedBook.getTitle() != null) book.get().setTitle(updatedBook.getTitle());
+            if (updatedBook.getAuthor() != null) book.get().setAuthor(updatedBook.getAuthor());
+            bookRepository.update(book.get());
+            return "Updated book: \n" + book.get();
         }
         return "Book is not found. Cannot update.";
     }
 
     @DeleteMapping("/{id}")
     public String delete(@PathVariable("id") int id) {
-        Book book = bookRepository.getById(id);
-        if (book != null) {
+        Optional<Book> book = bookRepository.getById(id);
+        if (book.isPresent()) {
             bookRepository.delete(id);
-            return "Book deleted: \n" + book;
+            return "Book deleted: \n" + book.get();
         }
         return "Book is not found. Cannot delete.";
     }
